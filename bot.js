@@ -24,14 +24,14 @@ const mainMenuKeyboard = () => {
   return Markup.keyboard([
     ['🗳️ Ovoz berish', '👤 Kabinet'],
     ['🔗 Takliflar', '💰 Pul yechish'],
-    ['🏆 Top Reyting', 'ℹ️ Ma'lumot']
+    ['🏆 Top Reyting', "ℹ️ Ma'lumot"]
   ]).resize();
 };
 
 const adminMenuKeyboard = () => {
   return Markup.keyboard([
     ['📊 Statistika', '⚙️ Sozlamalar'],
-    ['🗳️ Kutilayotgan Ovozlar', '💰 Yechish So'rovlari'],
+    ['🗳️ Kutilayotgan Ovozlar', "💰 Yechish So'rovlari"],
     ['📢 Xabar yuborish', '🚪 Chiqish']
   ]).resize();
 };
@@ -213,7 +213,7 @@ bot.hears('🏆 Top Reyting', async (ctx) => {
   await ctx.replyWithMarkdown(text);
 });
 
-bot.hears('ℹ️ Ma'lumot', async (ctx) => {
+bot.hears("ℹ️ Ma'lumot", async (ctx) => {
   const userId = ctx.from.id;
   const projectUrl = await db.getSetting('project_url', config.DEFAULT_PROJECT_URL);
   const voteReward = await db.getSetting('vote_reward', String(config.VOTE_REWARD));
