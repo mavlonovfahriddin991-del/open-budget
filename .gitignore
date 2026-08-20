@@ -1,0 +1,19 @@
+# SQLite database file
+open_budget.db
+
+# Compiled Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables / secret keys
+.env
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE files
+.idea/
+.vscode/

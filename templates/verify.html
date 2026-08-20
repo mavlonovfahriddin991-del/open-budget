@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kodni tasdiqlash - Open Budget</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-100 py-4">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-emerald-600 text-2xl font-bold"><i class="fa-solid fa-wallet"></i> Ochiq Budjet</span>
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2 py-0.5 rounded">Simulyator</span>
+            </div>
+            <div class="text-sm text-gray-500">
+                <a href="/" class="hover:underline text-gray-600"><i class="fa-solid fa-arrow-left"></i> Bosh sahifa</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 max-w-md w-full">
+            
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 text-3xl mb-3">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">SMS Kodni Kiriting</h1>
+                <p class="text-gray-500 text-sm mt-1">
+                    Tasdiqlash kodi <strong class="text-gray-800 font-semibold">{{ phone }}</strong> raqamiga yuborildi.
+                </p>
+                <p class="text-xs text-gray-400 mt-2 bg-gray-50 p-2 rounded border border-gray-100">
+                    💡 <strong>Test rejimi:</strong> Agar ushbu telefon botga ulangan bo'lsa, kod botingizga bordi. Aks holda, kod bot adminlariga yuborildi.
+                </p>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(category_filter=["error"]) %}
+                {% if messages %}
+                    <div class="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3 mb-4">
+                        {% for message in messages %}
+                            <p><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% with messages = get_flashed_messages(category_filter=["success"]) %}
+                {% if messages %}
+                    <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm rounded-lg p-3 mb-4">
+                        {% for message in messages %}
+                            <p><i class="fa-solid fa-circle-check mr-1"></i> {{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% with messages = get_flashed_messages(category_filter=["info"]) %}
+                {% if messages %}
+                    <div class="bg-blue-50 border border-blue-200 text-blue-700 text-sm rounded-lg p-3 mb-4">
+                        {% for message in messages %}
+                            <p><i class="fa-solid fa-circle-info mr-1"></i> {{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('verify_code') }}" method="POST" class="space-y-4">
+                <input type="hidden" name="phone" value="{{ phone }}">
+                
+                <div>
+                    <label for="code" class="block text-sm font-semibold text-gray-700 mb-1">6 xonali tasdiqlash kodi</label>
+                    <input type="text" id="code" name="code" placeholder="123456" required maxlength="6"
+                        class="block w-full rounded-xl border border-gray-300 px-3 py-2.5 text-center text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 text-2xl tracking-widest font-bold">
+                </div>
+
+                <button type="submit" 
+                    class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition duration-150 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 flex items-center justify-center space-x-2">
+                    <span>Ovozni tasdiqlash</span>
+                    <i class="fa-solid fa-shield-check"></i>
+                </button>
+            </form>
+
+            <div class="mt-4 text-center">
+                <a href="/" class="text-sm text-gray-500 hover:underline">Raqamni noto'g'ri kiritdingizmi? Ortga qaytish</a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 py-4 text-center text-xs text-gray-400">
+        <p>&copy; 2026 Open Budget Simulator. Barcha huquqlar simulyatsiya qilingan.</p>
+    </footer>
+
+</body>
+</html>
