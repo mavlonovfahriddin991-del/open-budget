@@ -33,7 +33,7 @@
                 </div>
                 <h1 class="text-xl font-bold text-gray-800">SMS Kodni Kiriting</h1>
                 <p class="text-gray-500 text-sm mt-1">
-                    Tasdiqlash kodi <strong class="text-gray-800 font-semibold">{{ phone }}</strong> raqamiga yuborildi.
+                    Tasdiqlash kodi <strong class="text-gray-800 font-semibold"><%= phone %></strong> raqamiga yuborildi.
                 </p>
                 <p class="text-xs text-gray-400 mt-2 bg-gray-50 p-2 rounded border border-gray-100">
                     💡 <strong>Test rejimi:</strong> Agar ushbu telefon botga ulangan bo'lsa, kod botingizga bordi. Aks holda, kod bot adminlariga yuborildi.
@@ -41,38 +41,32 @@
             </div>
 
             <!-- Flash Messages -->
-            {% with messages = get_flashed_messages(category_filter=["error"]) %}
-                {% if messages %}
-                    <div class="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3 mb-4">
-                        {% for message in messages %}
-                            <p><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
+            <% if (error && error.length > 0) { %>
+                <div class="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3 mb-4">
+                    <% error.forEach(function(message) { %>
+                        <p><i class="fa-solid fa-triangle-exclamation mr-1"></i> <%= message %></p>
+                    <% }); %>
+                </div>
+            <% } %>
 
-            {% with messages = get_flashed_messages(category_filter=["success"]) %}
-                {% if messages %}
-                    <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm rounded-lg p-3 mb-4">
-                        {% for message in messages %}
-                            <p><i class="fa-solid fa-circle-check mr-1"></i> {{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
+            <% if (success && success.length > 0) { %>
+                <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm rounded-lg p-3 mb-4">
+                    <% success.forEach(function(message) { %>
+                        <p><i class="fa-solid fa-circle-check mr-1"></i> <%= message %></p>
+                    <% }); %>
+                </div>
+            <% } %>
 
-            {% with messages = get_flashed_messages(category_filter=["info"]) %}
-                {% if messages %}
-                    <div class="bg-blue-50 border border-blue-200 text-blue-700 text-sm rounded-lg p-3 mb-4">
-                        {% for message in messages %}
-                            <p><i class="fa-solid fa-circle-info mr-1"></i> {{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
+            <% if (info && info.length > 0) { %>
+                <div class="bg-blue-50 border border-blue-200 text-blue-700 text-sm rounded-lg p-3 mb-4">
+                    <% info.forEach(function(message) { %>
+                        <p><i class="fa-solid fa-circle-info mr-1"></i> <%= message %></p>
+                    <% }); %>
+                </div>
+            <% } %>
 
-            <form action="{{ url_for('verify_code') }}" method="POST" class="space-y-4">
-                <input type="hidden" name="phone" value="{{ phone }}">
+            <form action="/verify_code" method="POST" class="space-y-4">
+                <input type="hidden" name="phone" value="<%= phone %>">
                 
                 <div>
                     <label for="code" class="block text-sm font-semibold text-gray-700 mb-1">6 xonali tasdiqlash kodi</label>

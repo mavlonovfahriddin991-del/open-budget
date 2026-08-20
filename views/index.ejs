@@ -37,27 +37,31 @@
             </div>
 
             <!-- Flash Messages -->
-            {% with messages = get_flashed_messages(category_filter=["error"]) %}
-                {% if messages %}
-                    <div class="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3 mb-4">
-                        {% for message in messages %}
-                            <p><i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
+            <% if (error && error.length > 0) { %>
+                <div class="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3 mb-4">
+                    <% error.forEach(function(message) { %>
+                        <p><i class="fa-solid fa-triangle-exclamation mr-1"></i> <%= message %></p>
+                    <% }); %>
+                </div>
+            <% } %>
 
-            {% with messages = get_flashed_messages(category_filter=["info"]) %}
-                {% if messages %}
-                    <div class="bg-blue-50 border border-blue-200 text-blue-700 text-sm rounded-lg p-3 mb-4">
-                        {% for message in messages %}
-                            <p><i class="fa-solid fa-circle-info mr-1"></i> {{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
+            <% if (success && success.length > 0) { %>
+                <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm rounded-lg p-3 mb-4">
+                    <% success.forEach(function(message) { %>
+                        <p><i class="fa-solid fa-circle-check mr-1"></i> <%= message %></p>
+                    <% }); %>
+                </div>
+            <% } %>
 
-            <form action="{{ url_for('vote') }}" method="POST" class="space-y-4">
+            <% if (info && info.length > 0) { %>
+                <div class="bg-blue-50 border border-blue-200 text-blue-700 text-sm rounded-lg p-3 mb-4">
+                    <% info.forEach(function(message) { %>
+                        <p><i class="fa-solid fa-circle-info mr-1"></i> <%= message %></p>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <form action="/vote" method="POST" class="space-y-4">
                 <div>
                     <label for="phone" class="block text-sm font-semibold text-gray-700 mb-1">Telefon raqamingiz</label>
                     <div class="relative">
@@ -74,7 +78,7 @@
                     <div class="text-emerald-600 text-xl"><i class="fa-solid fa-gift"></i></div>
                     <div class="text-sm">
                         <span class="text-gray-500">Muvaffaqiyatli ovoz uchun mukofot:</span>
-                        <strong class="text-emerald-700 block text-base font-bold">{{ vote_reward }} so'm</strong>
+                        <strong class="text-emerald-700 block text-base font-bold"><%= vote_reward %> so'm</strong>
                     </div>
                 </div>
 
@@ -110,23 +114,24 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-50 text-gray-700">
-                            {% if not top_voters %}
+                            <% if (!top_voters || top_voters.length === 0) { %>
                                 <tr>
                                     <td colspan="3" class="py-4 text-center text-gray-400 italic">Hozircha ma'lumot yo'q</td>
                                 </tr>
-                            {% endif %}
-                            {% for v in top_voters %}
-                                <tr>
-                                    <td class="py-3 font-bold text-emerald-600">#{{ loop.index }}</td>
-                                    <td class="py-3">
-                                        <span class="font-medium text-gray-800">{{ v.first_name }}</span>
-                                        {% if v.username != 'Yashirin' %}
-                                            <span class="text-xs text-gray-400 block">@{{ v.username }}</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="py-3 text-right font-bold text-gray-900">{{ v.vote_count }} ta</td>
-                                </tr>
-                            {% endfor %}
+                            <% } else { %>
+                                <% top_voters.forEach(function(v, index) { %>
+                                    <tr>
+                                        <td class="py-3 font-bold text-emerald-600">#<%= index + 1 %></td>
+                                        <td class="py-3">
+                                            <span class="font-medium text-gray-800"><%= v.first_name %></span>
+                                            <% if (v.username !== 'Yashirin') { %>
+                                                <span class="text-xs text-gray-400 block">@<%= v.username %></span>
+                                            <% } %>
+                                        </td>
+                                        <td class="py-3 text-right font-bold text-gray-900"><%= v.vote_count %> ta</td>
+                                    </tr>
+                                <% }); %>
+                            <% } %>
                         </tbody>
                     </table>
                 </div>
@@ -148,23 +153,24 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-50 text-gray-700">
-                            {% if not top_referrers %}
+                            <% if (!top_referrers || top_referrers.length === 0) { %>
                                 <tr>
                                     <td colspan="3" class="py-4 text-center text-gray-400 italic">Hozircha ma'lumot yo'q</td>
                                 </tr>
-                            {% endif %}
-                            {% for r in top_referrers %}
-                                <tr>
-                                    <td class="py-3 font-bold text-emerald-600">#{{ loop.index }}</td>
-                                    <td class="py-3">
-                                        <span class="font-medium text-gray-800">{{ r.first_name }}</span>
-                                        {% if r.username != 'Yashirin' %}
-                                            <span class="text-xs text-gray-400 block">@{{ r.username }}</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="py-3 text-right font-bold text-gray-900">{{ r.ref_count }} ta</td>
-                                </tr>
-                            {% endfor %}
+                            <% } else { %>
+                                <% top_referrers.forEach(function(r, index) { %>
+                                    <tr>
+                                        <td class="py-3 font-bold text-emerald-600">#<%= index + 1 %></td>
+                                        <td class="py-3">
+                                            <span class="font-medium text-gray-800"><%= r.first_name %></span>
+                                            <% if (r.username !== 'Yashirin') { %>
+                                                <span class="text-xs text-gray-400 block">@<%= r.username %></span>
+                                            <% } %>
+                                        </td>
+                                        <td class="py-3 text-right font-bold text-gray-900"><%= r.ref_count %> ta</td>
+                                    </tr>
+                                <% }); %>
+                            <% } %>
                         </tbody>
                     </table>
                 </div>

@@ -1,43 +1,38 @@
-# Open Budget Simulator (Test Tizimi)
+# Open Budget Simulator (Node.js version)
 
-Ushbu loyiha **Open Budget** (Tashabbusli Budjet) tizimiga o'xshash ovoz berish veb-sayti va Telegram bot integratsiyasining kichik test (simulyator) modelidir. 
+Ushbu loyiha **Open Budget** (Tashabbusli Budjet) tizimining Node.js (Express + Telegraf.js + SQLite) da yozilgan test (simulyator) modelidir. 
 
-Loyiha yordamida veb-sayt orqali ovoz berilganda qanday qilib Telegram bot bilan ma'lumot almashilishi va foydalanuvchilar qanday rag'batlantirilishini tushunib olishingiz mumkin.
+Loyiha yordamida veb-sayt orqali ovoz berilganda qanday qilib Telegram bot bilan ma'lumot almashilishi va foydalanuvchilar qanday taqdirlanishini tushunib olishingiz mumkin.
 
-## Loyiha Qanday Ishlaydi?
-
-1. **Veb-sayt orqali ovoz berish (http://127.0.0.1:5000):**
-   - Saytga telefon raqam kiritiladi.
-   - Tizim 6 xonali tasdiqlash kodini yaratib, ma'lumotlar bazasiga yozadi.
-   - **Simulyatsiya:** Agar ushbu telefon raqam botda ro'yxatdan o'tgan biror foydalanuvchiga tegishli bo'lsa, bot kodni to'g'ridan-to'g'ri foydalanuvchining o'ziga yuboradi. Aks holda (foydalanuvchi hali botda bo'lmasa), kod bot admin chatiga yuboriladi.
-   - Saytga kod to'g'ri kiritilganda ovoz qabul qilinadi, bot foydalanuvchini va uning taklif qilgan do'stini (referal) pul mukofotlari bilan taqdirlaydi.
-   
-2. **Telegram Bot orqali ovoz berish:**
-   - Bot ichidan turib ham telefon raqami va SMS kod kiritib ovoz berish mumkin. Adminlar kutilayotgan ovozlarni bot orqali tasdiqlashlari yoki rad etishlari mumkin.
+## Xususiyatlari
+- **Veb-sayt (Express + EJS):** Telefon raqam kiritib ovoz berish va SMS verification simulyatsiyasi.
+- **Liderlar jadvali (Leaderboard):** Eng ko'p ovoz berganlar va eng ko'p do'st taklif qilganlar reytingi saytda hamda botda real vaqtda ko'rinadi.
+- **Telegram Bot (Telegraf.js):** Foydalanuvchining hisobi, referal ssilkalar va balans boshqaruvi.
+- **Admin paneli:** Ovozlar va yechish so'rovlarini bot orqali tasdiqlash / rad etish.
 
 ---
 
 ## O'rnatish va Ishga Tushirish
 
 ### 1. Talablar
-Kompyuteringizda **Python 3.10** yoki undan yuqori versiya o'rnatilgan bo'lishi lozim.
+Kompyuteringizda **Node.js (v18+)** o'rnatilgan bo'lishi lozim.
 
-### 2. Kerakli kutubxonalarni o'rnatish
+### 2. Kutubxonalarni o'rnatish
 Loyiha papkasida terminalni ochib, quyidagi buyruqni bering:
 ```bash
-pip install -r requirements.txt
+npm install
 ```
 
-### 3. Sozlash (config.py)
-`config.py` faylini oching. Siz yuborgan bot tokeni avtomatik tarzda joylandi.
+### 3. Sozlash (config.js)
+`config.js` faylini oching. Siz yuborgan bot tokeni avtomatik ulandi.
 - `BOT_TOKEN = "8345110498:AAFqE3zgyV_s5P5mqFz_SfWkgeFDdIV2M8A"`
-- `ADMINS = []` ro'yxati bo'sh qoldirildi. 
-  > **Eslatma (Test rejimi):** Botga birinchi bo'lib kirib `/start` bosgan foydalanuvchi avtomatik ravishda **ADMIN** bo'ladi va admin huquqlariga ega bo'ladi.
+- `ADMINS = []`
+  > **Eslatma (Test rejimi):** Botga birinchi bo'lib kirib `/start` bosgan foydalanuvchi avtomatik ravishda **Admin** bo'ladi.
 
 ### 4. Loyihani ishga tushirish
-Veb-sayt va Telegram botni bir vaqtda parallel ishga tushirish uchun quyidagi buyruqni bering:
+Veb-sayt va Telegram botni birgalikda ishga tushirish uchun quyidagi buyruqni bering:
 ```bash
-python run.py
+npm start
 ```
 
 Ishga tushgandan so'ng brauzeringizda **`http://127.0.0.1:5000`** havolasini oching.
@@ -46,9 +41,9 @@ Ishga tushgandan so'ng brauzeringizda **`http://127.0.0.1:5000`** havolasini och
 
 ## Loyiha Tuzilishi
 
-*   `run.py` — veb-sayt va botni parallel boshqaruvchi asosiy skript.
-*   `app.py` — Flask veb-ilova kodi (veb-sahifalar logikasi).
-*   `bot.py` — Telegram bot kodi.
-*   `database.py` — SQLite ma'lumotlar bazasi boshqaruvi.
-*   `config.py` — sozlamalar.
-*   `templates/` — veb-sahifa shablonlari.
+*   `index.js` — sayt va botni parallel ishga tushiruvchi markaziy fayl.
+*   `app.js` — Express.js veb-sayt yo'nalishlari (routes).
+*   `bot.js` — Telegraf.js yordamida yozilgan bot handlerlari.
+*   `database.js` — SQLite ma'lumotlar bazasi boshqaruvi.
+*   `config.js` — sozlamalar.
+*   `views/` — veb-sahifa shablonlari (.ejs formatida).

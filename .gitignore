@@ -1,18 +1,22 @@
 # SQLite database file
 open_budget.db
 
-# Compiled Python files
-__pycache__/
-*.py[cod]
-*$py.class
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Environment variables / secret keys
 .env
 
-# Virtual environments
-venv/
-.venv/
-env/
+# Compiled Python files (just in case)
+__pycache__/
+*.py[cod]
+*$py.class
 
 # IDE files
 .idea/
